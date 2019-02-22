@@ -18,4 +18,7 @@
     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="201.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="201.0" vgrow="SOMETIMES" />
   </rowConstraints>
+   <children>
+      <Button mnemonicParsing="false" text="Button" />
+   </children>
 </GridPane>
