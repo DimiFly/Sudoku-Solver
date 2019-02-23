@@ -15,12 +15,13 @@ public class Creator {
             }
         }
         createSudoku();
-
+        printSudoku();
     }
 
-    public void createSudoku(){
+    public void createSudoku() {
         fillDiagonalFields();
-        fillInAll();
+        //fillInAll();
+        fillRemaining(0, sqrtN);
     }
 
     public void fillDiagonalFields() {
@@ -43,32 +44,13 @@ public class Creator {
                 }
             }
             int counter = 0;
-            for (int x = 0; x < 3; x++) {
-                for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < sqrtN; x++) {
+                for (int y = 0; y < sqrtN; y++) {
                     counter++;
-                    sudoku[x + (i * 3)][y + (i * 3)] = small[x][y];
-                    System.out.println(sudoku[x + (i * 3)][y + (i * 3)]);
+                    sudoku[x + (i * sqrtN)][y + (i * sqrtN)] = small[x][y];
                 }
             }
-
-            String out = "";
-            for (int a = 0; a < 3; a++) {
-                for (int b = 0; b < 3; b++) {
-                    out += small[a][b] + " ";
-                }
-                out += "\n";
-            }
-            System.out.println(out);
-
         }
-        String out = "";
-        for (int a = 0; a < 9; a++) {
-            for (int b = 0; b < 9; b++) {
-                out += sudoku[a][b] + " ";
-            }
-            out += "\n";
-        }
-        System.out.println(out);
 
     }
 
@@ -82,8 +64,8 @@ public class Creator {
                         if (checkIfSafe(x, y, i)) {
                             sudoku[x][y] = i;
                         }
-                        if(i == 9) {
-                            if(y == 0) {
+                        if (i == 9) {
+                            if (y == 0) {
                                 x--;
                             } else {
                                 y--;
@@ -96,18 +78,9 @@ public class Creator {
                 }
             }
         }
-        String out = "";
-        for (int a = 0; a < 9; a++) {
-            for (int b = 0; b < 9; b++) {
-                out += sudoku[a][b] + " ";
-            }
-            out += "\n";
-        }
-        System.out.println(out);
     }
 
     public boolean fillRemaining(int i, int j) {
-        //  System.out.println(i+" "+j);
         if (j >= n && i < n - 1) {
             i = i + 1;
             j = 0;
@@ -134,7 +107,6 @@ public class Creator {
             }
         }
 
-
         for (int num = 1; num <= n; num++) {
             if (checkIfSafe(i, j, num)) {
                 sudoku[i][j] = num;
@@ -144,15 +116,6 @@ public class Creator {
                 sudoku[i][j] = 0;
             }
         }
-
-        String out = "";
-        for (int a = 0; a < 9; a++) {
-            for (int b = 0; b < 9; b++) {
-                out += sudoku[a][b] + " ";
-            }
-            out += "\n";
-        }
-        System.out.println(out);
 
         return false;
     }
@@ -169,9 +132,9 @@ public class Creator {
     }
 
     public boolean checkIfSafe(int i, int j, int num) {
-        if(unUsedInRow(i, num) &&
+        if (unUsedInRow(i, num) &&
                 unUsedInCol(j, num) &&
-                unUsedInBox(i - i % sqrtN, j - j % sqrtN, num)){
+                unUsedInBox(i - i % sqrtN, j - j % sqrtN, num)) {
             return true;
         }
         return false;
@@ -229,5 +192,16 @@ public class Creator {
             }
         }
         return false;
+    }
+
+    public void printSudoku() {
+        String out = "";
+        for (int a = 0; a < n; a++) {
+            for (int b = 0; b < n; b++) {
+                out += sudoku[a][b] + " ";
+            }
+            out += "\n";
+        }
+        System.out.println(out);
     }
 }
