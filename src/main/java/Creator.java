@@ -15,6 +15,7 @@ public class Creator {
             }
         }
         createSudoku();
+        makeHoles(20);
         printSudoku();
     }
 
@@ -58,8 +59,6 @@ public class Creator {
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 if (sudoku[x][y] == 0) {
-                    Random r = new Random();
-                    int number = r.nextInt(9) + 1;
                     for (int i = 1; i <= 9; i++) {
                         if (checkIfSafe(x, y, i)) {
                             sudoku[x][y] = i;
@@ -192,6 +191,21 @@ public class Creator {
             }
         }
         return false;
+    }
+
+    public void makeHoles(int amount) {
+        int x;
+        int y;
+        for (int i = 0; i < amount; i++) {
+            Random r = new Random();
+            x = r.nextInt(9);
+            y = r.nextInt(9);
+            if(sudoku[x][y] == 0){
+                i--;
+            } else {
+                sudoku[x][y] = 0;
+            }
+        }
     }
 
     public void printSudoku() {
