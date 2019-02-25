@@ -3,11 +3,12 @@ import java.util.Random;
 public class Creator {
 
     private int[][] sudoku;
-    private int n, sqrtN;
+    private int n, sqrtN, holes;
 
-    public Creator(int n, int sqrtN) {
+    public Creator(int n, int sqrtN, int holes) {
         this.n = n;
         this.sqrtN = sqrtN;
+        this.holes = holes;
         sudoku = new int[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -15,7 +16,7 @@ public class Creator {
             }
         }
         createSudoku();
-        makeHoles(20);
+        makeHoles();
         printSudoku();
     }
 
@@ -44,10 +45,8 @@ public class Creator {
                     }
                 }
             }
-            int counter = 0;
             for (int x = 0; x < sqrtN; x++) {
                 for (int y = 0; y < sqrtN; y++) {
-                    counter++;
                     sudoku[x + (i * sqrtN)][y + (i * sqrtN)] = small[x][y];
                 }
             }
@@ -139,7 +138,7 @@ public class Creator {
         return false;
     }
 
-    // check in the row for existence
+
     public boolean unUsedInRow(int i, int num) {
         for (int j = 0; j < n; j++) {
             if (sudoku[i][j] == num) {
@@ -149,7 +148,6 @@ public class Creator {
         return true;
     }
 
-    // check in the row for existence
     public boolean unUsedInCol(int j, int num) {
         for (int i = 0; i < n; i++) {
             if (sudoku[i][j] == num) {
@@ -159,7 +157,6 @@ public class Creator {
         return true;
     }
 
-    // Returns false if given 3 x 3 block contains num.
     boolean unUsedInBox(int rowStart, int colStart, int num) {
         for (int i = 0; i < sqrtN; i++)
             for (int j = 0; j < sqrtN; j++)
@@ -193,13 +190,13 @@ public class Creator {
         return false;
     }
 
-    public void makeHoles(int amount) {
+    public void makeHoles() {
         int x;
         int y;
-        for (int i = 0; i < amount; i++) {
+        for (int i = 0; i < holes; i++) {
             Random r = new Random();
-            x = r.nextInt(9);
-            y = r.nextInt(9);
+            x = r.nextInt(n);
+            y = r.nextInt(n);
             if(sudoku[x][y] == 0){
                 i--;
             } else {
