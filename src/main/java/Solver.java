@@ -1,23 +1,52 @@
 public class Solver {
 
     private int[][] sudoku;
+    private int n, sqrtN;
 
-    public Solver(int[][] sudoku) {
+    public Solver(int[][] sudoku, int n, int sqrtN) {
         this.sudoku = sudoku;
+        this.n = n;
+        this.sqrtN = sqrtN;
     }
 
-    public void solve() {
-        for (int x = 0; x < sudoku.length; x++) {
-            for (int y = 0; y < sudoku.length; y++) {
-                if (sudoku[x][y] == 0) {
-                    for (int i = 1; i <= sudoku.length; i++) {
-                        if (checkIfSafe(x, y, i)) {
-                            sudoku[x][y] = i;
-                        }
-                    }
+    public boolean solve(int i, int j) {
+        if (j >= n && i < n - 1) {
+            i = i + 1;
+            j = 0;
+        }
+        if (i >= n && j >= n) {
+            return true;
+        }
+
+        if (i < sqrtN) {
+            if (j < sqrtN) {
+                j = sqrtN;
+            }
+        } else if (i < n - sqrtN) {
+            if (j == (i / sqrtN) * sqrtN) {
+                j = j + sqrtN;
+            }
+        } else {
+            if (j == n - sqrtN) {
+                i = i + 1;
+                j = 0;
+                if (i >= n) {
+                    return true;
                 }
             }
         }
+
+        for (int num = 1; num <= n; num++) {
+            if (checkIfSafe(i, j, num)) {
+                sudoku[i][j] = num;
+                if (solve(i, j + 1)) {
+                    return true;
+                }
+                sudoku[i][j] = 0;
+            }
+        }
+
+        return false;
     }
 
     public boolean checkIfSafe(int i, int j, int num) {
@@ -58,5 +87,41 @@ public class Solver {
                     return false;
 
         return true;
+    }
+
+    public void printSudoku() {
+        System.out.println("Printing sudoku...");
+        String out = "";
+        for (int a = 0; a < n; a++) {
+            for (int b = 0; b < n; b++) {
+                out += sudoku[a][b] + " ";
+            }
+            out += "\n";
+        }
+        System.out.println(out);
+    }
+
+    public int[][] getSudoku() {
+        return sudoku;
+    }
+
+    public void setSudoku(int[][] sudoku) {
+        this.sudoku = sudoku;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public int getSqrtN() {
+        return sqrtN;
+    }
+
+    public void setSqrtN(int sqrtN) {
+        this.sqrtN = sqrtN;
     }
 }
