@@ -1,7 +1,9 @@
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-        Creator c = new Creator(100, 10, 1000);
+        Creator c = new Creator(9, 3, 17);
+        Solver s = new Solver(c.getSudoku(), 9, 3);
+        s.solve(0, 1);
+        s.printSudoku();
     }
 }

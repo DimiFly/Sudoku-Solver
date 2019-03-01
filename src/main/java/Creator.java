@@ -158,11 +158,13 @@ public class Creator {
     }
 
     boolean unUsedInBox(int rowStart, int colStart, int num) {
-        for (int i = 0; i < sqrtN; i++)
-            for (int j = 0; j < sqrtN; j++)
-                if (sudoku[rowStart + i][colStart + j] == num)
+        for (int i = 0; i < sqrtN; i++) {
+            for (int j = 0; j < sqrtN; j++) {
+                if (sudoku[rowStart + i][colStart + j] == num) {
                     return false;
-
+                }
+            }
+        }
         return true;
     }
 
@@ -214,5 +216,37 @@ public class Creator {
             out += "\n";
         }
         System.out.println(out);
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    public int getSqrtN() {
+        return sqrtN;
+    }
+
+    public void setSqrtN(int sqrtN) {
+        this.sqrtN = sqrtN;
+    }
+
+    public int getHoles() {
+        return holes;
+    }
+
+    public void setHoles(int holes) {
+        this.holes = holes;
+    }
+
+    public int[][] getSudoku() {
+        return sudoku;
+    }
+
+    public void setSudoku(int[][] sudoku) {
+        this.sudoku = sudoku;
     }
 }
