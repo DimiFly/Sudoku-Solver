@@ -21,12 +21,17 @@ public class Creator {
         printSudoku();
     }
 
+    /**
+     * Sudoku erstellen
+     */
     public void createSudoku() {
         fillDiagonalFields();
-        //fillInAll();
         fillRemaining(0, sqrtN);
     }
 
+    /**
+     * Diagonale 3x3 Felder füllen
+     */
     public void fillDiagonalFields() {
         int nextNumber;
         for (int i = 0; i < sqrtN; i++) {
@@ -55,32 +60,14 @@ public class Creator {
 
     }
 
-    public void fillInAll() {
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                if (sudoku[x][y] == 0) {
-                    for (int i = 1; i <= 9; i++) {
-                        if (checkIfSafe(x, y, i)) {
-                            sudoku[x][y] = i;
-                        }
-                        if (i == 9) {
-                            if (y == 0) {
-                                x--;
-                            } else {
-                                y--;
-                            }
-                            for (int j = 0; j < 9; j++) {
-                                sudoku[j][y] = 0;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
+    /**
+     * Restliche Zahlen einfüllen
+     * @param i
+     * @param j
+     * @return
+     */
     public boolean fillRemaining(int i, int j) {
-        if (j >= n && i < n - 1) {
+        if (i < n - 1 && j >= n) {
             i = i + 1;
             j = 0;
         }
@@ -119,17 +106,13 @@ public class Creator {
         return false;
     }
 
-    public boolean checkIfHasHole() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (sudoku[i][j] == 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
+    /**
+     * Kontrollieren ob die Zahl den Sudokuregeln entspricht
+     * @param i
+     * @param j
+     * @param num
+     * @return
+     */
     public boolean checkIfSafe(int i, int j, int num) {
         if (unUsedInRow(i, num) &&
                 unUsedInCol(j, num) &&
@@ -139,7 +122,12 @@ public class Creator {
         return false;
     }
 
-
+    /**
+     * Kontrollieren ob die Zahl in der Reihe schon benutzt wird
+     * @param i
+     * @param num
+     * @return
+     */
     public boolean unUsedInRow(int i, int num) {
         for (int j = 0; j < n; j++) {
             if (sudoku[i][j] == num) {
@@ -149,6 +137,12 @@ public class Creator {
         return true;
     }
 
+    /**
+     * Kontrollieren ob die Zahl in der Zeile schon benutzt wird
+     * @param j
+     * @param num
+     * @return
+     */
     public boolean unUsedInCol(int j, int num) {
         for (int i = 0; i < n; i++) {
             if (sudoku[i][j] == num) {
@@ -158,6 +152,13 @@ public class Creator {
         return true;
     }
 
+    /**
+     * Kontrollieren ob die Zahl im entsprechenden 3x3 Feld schon benutzt wird
+     * @param rowStart
+     * @param colStart
+     * @param num
+     * @return
+     */
     boolean unUsedInBox(int rowStart, int colStart, int num) {
         for (int i = 0; i < sqrtN; i++) {
             for (int j = 0; j < sqrtN; j++) {
@@ -169,6 +170,12 @@ public class Creator {
         return true;
     }
 
+    /**
+     * Kontrollieren ob die Zahl im gerade zu füllenden Feld schon benutzt wird
+     * @param number
+     * @param matrix
+     * @return
+     */
     public boolean checkIfAlreadyUsed(int number, int[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -180,19 +187,9 @@ public class Creator {
         return false;
     }
 
-    public boolean checkIfAlreadyUsedInRowOrColumn(int number, int[][] matrix, int row, int column) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                if (matrix[column][j] == number) {
-                    return true;
-                } else if (matrix[i][row] == number) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
+    /**
+     * Löcher im Sudoku stanzen
+     */
     public void makeHoles() {
         int x;
         int y;
@@ -208,15 +205,25 @@ public class Creator {
         }
     }
 
+    /**
+     * Sudoku in der Konsole ausgeben
+     */
     public void printSudoku() {
         String out = "";
         for (int a = 0; a < n; a++) {
+            if(a % 3 == 0 && a != 0){
+                out += "------------------- \n";
+            }
             for (int b = 0; b < n; b++) {
+                if(b % 3 == 0 && b != 0){
+                    out += "|";
+                }
                 out += sudoku[a][b] + " ";
             }
             out += "\n";
         }
         System.out.println(out);
+        System.out.println("___________________");
     }
 
     public int getN() {

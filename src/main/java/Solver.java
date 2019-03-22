@@ -11,6 +11,10 @@ public class Solver {
         printSudoku();
     }
 
+    /**
+     * Sudoku lösen
+     * @return
+     */
     public boolean solve() {
         for(int row = 0; row < n; row++) {
             for(int col = 0; col < n; col++) {
@@ -32,6 +36,9 @@ public class Solver {
         return true;
     }
 
+    /**
+     * Kontrollieren ob die Zahl den Sudokuregeln entspricht
+     */
     public boolean checkIfSafe(int i, int j, int num) {
         int sqrtN = (int) Math.sqrt(sudoku.length);
         if (unUsedInRow(i, num) &&
@@ -42,7 +49,12 @@ public class Solver {
         return false;
     }
 
-    // check in the row for existence
+    /**
+     * Kontrollieren ob die Zahl in der Reihe schon benutzt wird
+     * @param i
+     * @param num
+     * @return
+     */
     public boolean unUsedInRow(int i, int num) {
         for (int j = 0; j < sudoku.length; j++) {
             if (sudoku[i][j] == num) {
@@ -52,7 +64,12 @@ public class Solver {
         return true;
     }
 
-    // check in the row for existence
+    /**
+     * Kontrollieren ob die Zahl in der Zeile schon benutzt wird
+     * @param j
+     * @param num
+     * @return
+     */
     public boolean unUsedInCol(int j, int num) {
         for (int i = 0; i < sudoku.length; i++) {
             if (sudoku[i][j] == num) {
@@ -62,7 +79,13 @@ public class Solver {
         return true;
     }
 
-    // Returns false if given 3 x 3 block contains num.
+    /**
+     * Kontrollieren ob die Zahl im 3x3 Feld schon benutzt wird
+     * @param rowStart
+     * @param colStart
+     * @param num
+     * @return
+     */
     boolean unUsedInBox(int rowStart, int colStart, int num) {
         for (int i = 0; i < Math.sqrt(sudoku.length); i++)
             for (int j = 0; j < Math.sqrt(sudoku.length); j++)
@@ -72,16 +95,25 @@ public class Solver {
         return true;
     }
 
+    /**
+     * Sudoku in der Konsole ausgeben
+     */
     public void printSudoku() {
-        System.out.println("Printing sudoku...");
         String out = "";
         for (int a = 0; a < n; a++) {
+            if(a % 3 == 0 && a != 0){
+                out += "------------------- \n";
+            }
             for (int b = 0; b < n; b++) {
+                if(b % 3 == 0 && b != 0){
+                    out += "|";
+                }
                 out += sudoku[a][b] + " ";
             }
             out += "\n";
         }
         System.out.println(out);
+        System.out.println("___________________");
     }
 
     public int[][] getSudoku() {
