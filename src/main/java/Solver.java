@@ -7,46 +7,29 @@ public class Solver {
         this.sudoku = sudoku;
         this.n = n;
         this.sqrtN = sqrtN;
+        solve();
+        printSudoku();
     }
 
-    public boolean solve(int i, int j) {
-        if (j >= n && i < n - 1) {
-            i = i + 1;
-            j = 0;
-        }
-        if (i >= n && j >= n) {
-            return true;
-        }
-
-        if (i < sqrtN) {
-            if (j < sqrtN) {
-                j = sqrtN;
-            }
-        } else if (i < n - sqrtN) {
-            if (j == (i / sqrtN) * sqrtN) {
-                j = j + sqrtN;
-            }
-        } else {
-            if (j == n - sqrtN) {
-                i = i + 1;
-                j = 0;
-                if (i >= n) {
-                    return true;
+    public boolean solve() {
+        for(int row = 0; row < n; row++) {
+            for(int col = 0; col < n; col++) {
+                if (sudoku[row][col] == 0) {
+                    for(int num = 1; num <= n; num++) {
+                        if (checkIfSafe(row, col, num)){
+                            sudoku[row][col] = num;
+                            if(solve()){
+                                return true;
+                            } else {
+                                sudoku[row][col] = 0;
+                            }
+                        }
+                    }
+                    return false;
                 }
             }
         }
-
-        for (int num = 1; num <= n; num++) {
-            if (checkIfSafe(i, j, num)) {
-                sudoku[i][j] = num;
-                if (solve(i, j + 1)) {
-                    return true;
-                }
-                sudoku[i][j] = 0;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     public boolean checkIfSafe(int i, int j, int num) {

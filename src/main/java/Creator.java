@@ -16,6 +16,7 @@ public class Creator {
             }
         }
         createSudoku();
+        printSudoku();
         makeHoles();
         printSudoku();
     }
