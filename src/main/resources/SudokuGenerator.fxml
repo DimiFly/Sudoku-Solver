@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,8 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="297.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="67.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="67.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="67.0" />
@@ -32,10 +34,24 @@
       <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="110.0" prefWidth="603.0" text="Sudoku Solver" textAlignment="CENTER" GridPane.columnSpan="9">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="99.0" prefWidth="536.0" text="Sudoku Generator" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="9">
          <font>
             <Font name="BebasNeue" size="75.0" />
          </font>
       </Label>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #002F44;" GridPane.rowSpan="10">
+         <children>
+            <AnchorPane prefHeight="700.0" prefWidth="63.0" style="-fx-background-color: #002A44;">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </AnchorPane>
+            <Button id="button" layoutX="69.0" layoutY="153.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="160.0" stylesheets="@GUIStyle.css" text="Generate Sudoku">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </GridPane>
