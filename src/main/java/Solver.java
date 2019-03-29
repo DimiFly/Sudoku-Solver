@@ -101,11 +101,11 @@ public class Solver {
     public void printSudoku() {
         String out = "";
         for (int a = 0; a < n; a++) {
-            if(a % 3 == 0 && a != 0){
+            if(a % sqrtN == 0 && a != 0){
                 out += "------------------- \n";
             }
             for (int b = 0; b < n; b++) {
-                if(b % 3 == 0 && b != 0){
+                if(b % sqrtN == 0 && b != 0){
                     out += "|";
                 }
                 out += sudoku[a][b] + " ";
