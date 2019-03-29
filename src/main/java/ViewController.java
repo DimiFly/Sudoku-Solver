@@ -7,7 +7,7 @@ public class ViewController {
 
     private Creator creator;
     private Solver solver;
-    private GraphicsContext gcz;
+    private GraphicsContext gc;
 
     @FXML
     private Canvas canvas;

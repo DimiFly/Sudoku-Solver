@@ -15,7 +15,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(new URL("file:src/main/resources/SudokuGenerator.fxml"));
         primaryStage.setTitle("Voronoi");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(true);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
