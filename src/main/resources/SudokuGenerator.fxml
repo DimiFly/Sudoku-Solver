@@ -36,7 +36,7 @@
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="99.0" prefWidth="536.0" text="Sudoku Generator" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="9">
          <font>
-            <Font name="System" size="75.0" />
+            <Font name="BebasNeue" size="75.0" />
          </font>
       </Label>
       <AnchorPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="297.0" style="-fx-background-color: #002F44;" GridPane.rowSpan="10">
