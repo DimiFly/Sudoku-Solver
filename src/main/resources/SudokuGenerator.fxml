@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #333332;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #333332;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="297.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="603.0" />
@@ -34,13 +35,55 @@
          </font>
       </Label>
       <Canvas fx:id="canvas" height="603.0" width="603.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <VBox prefHeight="700.0" prefWidth="748.0" style="-fx-background-color: #222221;" GridPane.rowSpan="2">
+      <VBox maxHeight="-Infinity" prefHeight="506.0" prefWidth="297.0" style="-fx-background-color: #222221;" GridPane.rowIndex="1" GridPane.rowSpan="2">
          <effect>
             <DropShadow />
          </effect>
          <children>
-            <Button id="button" mnemonicParsing="false" stylesheets="@GUIStyle.css" text="Sudoku generieren" />
+            <Button id="button" alignment="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="382.0" stylesheets="@GUIStyle.css" text="Sudoku generieren">
+               <font>
+                  <Font name="Yu Gothic Light" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="70.0" />
+               </VBox.margin>
+            </Button>
+            <Button id="button" alignment="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="382.0" stylesheets="@GUIStyle.css" text="Sudoku lösen">
+               <font>
+                  <Font name="Yu Gothic Light" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button id="button" alignment="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="382.0" stylesheets="@GUIStyle.css" text="Sudoku speichern">
+               <font>
+                  <Font name="Yu Gothic Light" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Button>
+            <Button id="button" alignment="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="382.0" stylesheets="@GUIStyle.css" text="Sudoku laden">
+               <font>
+                  <Font name="Yu Gothic Light" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button id="button" alignment="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="382.0" stylesheets="@GUIStyle.css" text="Sudoku leeren">
+               <font>
+                  <Font name="Yu Gothic Light" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="87.0" />
+               </VBox.margin>
+            </Button>
          </children>
+         <GridPane.margin>
+            <Insets top="-95.0" />
+         </GridPane.margin>
       </VBox>
    </children>
 </GridPane>

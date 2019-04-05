@@ -1,7 +1,7 @@
 .button{
 
     -fx-background-color: transparent;
-    -fx-text-fill: #FFFF66;
+    -fx-text-fill: white;
     -fx-font-style: Yu Gothic;
 }
 
@@ -9,3 +9,6 @@
     -fx-background-color: blue;
 }
 
+.button:hover{
+    -fx-background-color: #111111;
+}
