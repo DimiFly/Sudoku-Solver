@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(new URL("file:src/main/resources/SudokuGenerator.fxml"));
-        primaryStage.setTitle("Sudoku");
+        primaryStage.setTitle("Sudoku by Noa and Dimitri");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
