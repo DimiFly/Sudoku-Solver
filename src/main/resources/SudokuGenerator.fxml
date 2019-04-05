@@ -12,12 +12,15 @@
 
 <GridPane id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #333332;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="10.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="297.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="20.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="603.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="97.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="603.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
@@ -29,13 +32,13 @@
       <RowConstraints />
   </rowConstraints>
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="97.0" prefWidth="696.0" text="SUDOKU GENERATOR" textAlignment="CENTER" textFill="#c8c8c8" GridPane.columnIndex="1">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="97.0" prefWidth="696.0" text="SUDOKU GENERATOR" textAlignment="CENTER" textFill="#c8c8c8" GridPane.columnIndex="3">
          <font>
             <Font name="Yu Gothic Light" size="50.0" />
          </font>
       </Label>
-      <Canvas fx:id="canvas" height="603.0" width="603.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <VBox maxHeight="-Infinity" prefHeight="506.0" prefWidth="297.0" style="-fx-background-color: #222221;" GridPane.rowIndex="1" GridPane.rowSpan="2">
+      <Canvas fx:id="canvas" height="603.0" width="603.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+      <VBox maxHeight="-Infinity" prefHeight="725.0" prefWidth="290.0" style="-fx-background-color: #222221;" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <effect>
             <DropShadow />
          </effect>
@@ -82,7 +85,7 @@
             </Button>
          </children>
          <GridPane.margin>
-            <Insets top="-95.0" />
+            <Insets />
          </GridPane.margin>
       </VBox>
    </children>
