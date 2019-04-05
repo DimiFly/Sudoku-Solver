@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Creator {
 
-    private int[][] sudoku;
+    private int[][] sudoku, sudokuWithHoles;
     private int n, sqrtN, holes;
 
     public Creator(int n, int sqrtN, int holes) {
@@ -17,7 +17,7 @@ public class Creator {
         }
         createSudoku();
         printSudoku();
-        makeHoles();
+        sudokuWithHoles = makeHoles();
         printSudoku();
     }
 
@@ -190,19 +190,21 @@ public class Creator {
     /**
      * Löcher im Sudoku stanzen
      */
-    public void makeHoles() {
+    public int[][] makeHoles() {
         int x;
         int y;
+        int[][] newSudoku = new int[n][n];
         for (int i = 0; i < holes; i++) {
             Random r = new Random();
             x = r.nextInt(n);
             y = r.nextInt(n);
-            if(sudoku[x][y] == 0){
+            if(newSudoku[x][y] == 0){
                 i--;
             } else {
-                sudoku[x][y] = 0;
+                newSudoku[x][y] = 0;
             }
         }
+        return newSudoku;
     }
 
     /**
@@ -256,5 +258,13 @@ public class Creator {
 
     public void setSudoku(int[][] sudoku) {
         this.sudoku = sudoku;
+    }
+
+    public int[][] getSudokuWithHoles() {
+        return sudokuWithHoles;
+    }
+
+    public void setSudokuWithHoles(int[][] sudokuWithHoles) {
+        this.sudokuWithHoles = sudokuWithHoles;
     }
 }
