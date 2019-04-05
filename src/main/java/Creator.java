@@ -16,9 +16,9 @@ public class Creator {
             }
         }
         createSudoku();
-        printSudoku();
+        printSudoku(sudoku);
         sudokuWithHoles = makeHoles();
-        printSudoku();
+        printSudoku(sudokuWithHoles);
     }
 
     /**
@@ -193,7 +193,7 @@ public class Creator {
     public int[][] makeHoles() {
         int x;
         int y;
-        int[][] newSudoku = new int[n][n];
+        int[][] newSudoku = sudoku;
         for (int i = 0; i < holes; i++) {
             Random r = new Random();
             x = r.nextInt(n);
@@ -210,7 +210,7 @@ public class Creator {
     /**
      * Sudoku in der Konsole ausgeben
      */
-    public void printSudoku() {
+    public void printSudoku(int[][] sudoku) {
         String out = "";
         for (int a = 0; a < n; a++) {
             if(a % 3 == 0 && a != 0){
