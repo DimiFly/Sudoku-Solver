@@ -3,6 +3,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,6 +20,7 @@ public class ViewController implements Initializable {
 
     @FXML
     private Canvas canvas;
+
 
     @FXML
     public void handleButtonGenerate(ActionEvent e) {
