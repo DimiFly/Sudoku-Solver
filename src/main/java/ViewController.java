@@ -5,6 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -21,7 +22,10 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleButtonGenerate(ActionEvent e) {
-
+        gc.clearRect(0,0,603,603);
+        creator = new Creator(9,3,45);
+        drawLines();
+        drawSudoku(creator.getSudokuWithHoles());
     }
 
     @FXML
@@ -45,30 +49,44 @@ public class ViewController implements Initializable {
     }
 
     public void drawSudoku(int[][] sudoku) {
-        gc.setStroke(Color.WHITE);
-        for (int i = 0; i <= 9; i++) {
-            gc.strokeLine(603/9*i, 0, 603/9*i, 603);
-        }
-        for (int i = 0; i <= 9; i++) {
-            gc.strokeLine(0, 603/9*i, 603, 603/9*i);
-        }
-        gc.strokeLine(1, 0, 1, 603);
-        gc.strokeLine(0, 1, 603, 1);
-        gc.strokeLine(602, 0, 602, 603);
-        gc.strokeLine(0, 602, 603, 602);
+        gc.setFill(Color.WHITE);
+        gc.setFont(new Font("Yu Gothic", 30));
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                gc.strokeText(sudoku[i][j]+"", 603-(i*67)-34, 603-(j*67)-34);
+                if(sudoku[i][j] != 0) {
+                    gc.fillText(sudoku[i][j] + "", 603 - (i * 67) - 40, 603 - (j * 67) - 23);
+                }
             }
         }
 
     }
 
+    public void drawLines(){
+        gc.setStroke(Color.WHITE);
+        gc.setFill(Color.WHITE);
+        for (int i = 0; i <= 9; i++) {
+            if(i == 3 || i == 6) {
+                gc.fillRect(603/9*i-2, 0, 5, 603);
+            } else {
+                gc.strokeLine(603 / 9 * i, 0, 603 / 9 * i, 603);
+            }
+        }
+        for (int i = 0; i <= 9; i++) {
+            if(i == 3 || i == 6) {
+                gc.fillRect(0, 603/9*i-2, 603, 5);
+            } else {
+                gc.strokeLine(0, 603 / 9 * i, 603, 603 / 9 * i);
+            }
+        }
+        gc.strokeLine(1, 0, 1, 603);
+        gc.strokeLine(0, 1, 603, 1);
+        gc.strokeLine(602, 0, 602, 603);
+        gc.strokeLine(0, 602, 603, 602);
+    }
+
     public void initialize(URL location, ResourceBundle resources) {
         gc = canvas.getGraphicsContext2D();
-        creator = new Creator(9, 3, 20);
-        solver = new Solver(creator.getSudoku(), creator.getN(), creator.getSqrtN());
-        drawSudoku(creator.getSudokuWithHoles());
+
     }
 }

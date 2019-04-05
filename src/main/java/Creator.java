@@ -171,7 +171,7 @@ public class Creator {
     }
 
     /**
-     * Kontrollieren ob die Zahl im gerade zu füllenden Feld schon benutzt wird bla
+     * Kontrollieren ob die Zahl im gerade zu füllenden Feld schon benutzt wird
      * @param number
      * @param matrix
      * @return
