@@ -158,6 +158,11 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * Kontrolle ob das ausgewählte Feld beschreibbar ist
+     * @param field
+     * @return
+     */
     public boolean checkIfEditable(Field field) {
         for (int i = 0; i < freeFields.size(); i++) {
             if(field.getStartingX() == freeFields.get(i).getStartingX() &&
