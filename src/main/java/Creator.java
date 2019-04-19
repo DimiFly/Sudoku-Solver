@@ -17,8 +17,6 @@ public class Creator {
         }
         createSudoku();
         printSudoku(sudoku);
-        sudokuWithHoles = makeHoles();
-        printSudoku(sudokuWithHoles);
     }
 
     /**
@@ -190,7 +188,7 @@ public class Creator {
     /**
      * Löcher im Sudoku stanzen
      */
-    public int[][] makeHoles() {
+    public int[][] makeHoles(int[][] sudoku) {
         int x;
         int y;
         int[][] newSudoku = sudoku;

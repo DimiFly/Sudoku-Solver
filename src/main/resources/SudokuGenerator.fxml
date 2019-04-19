@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="660.0" prefWidth="870.0" style="-fx-background-color: #333332;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
+<GridPane id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleKeyPressed" prefHeight="660.0" prefWidth="870.0" style="-fx-background-color: #333332;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="250.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="10.0" />
@@ -22,7 +22,7 @@
       <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="610.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Canvas fx:id="canvas" height="603.0" width="603.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Canvas fx:id="canvas" height="603.0" onMouseReleased="#handleCanvasClicked" width="603.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
       <VBox maxHeight="-Infinity" prefHeight="725.0" prefWidth="290.0" style="-fx-background-color: #222221;" GridPane.rowIndex="1">
          <effect>
             <DropShadow />
@@ -86,25 +86,5 @@
          </children>
       </VBox>
       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #111110;" GridPane.columnIndex="1" />
-      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #111110;" GridPane.columnIndex="2">
-         <children>
-            <Label prefHeight="47.0" prefWidth="330.0" text="SUDOKU GENERATOR" textAlignment="CENTER" textFill="#c8c8c8">
-               <font>
-                  <Font name="Yu Gothic Light" size="20.0" />
-               </font>
-            </Label>
-            <Button id="button" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="47.0" prefWidth="47.0" stylesheets="@GUIStyle.css" text="X">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets left="233.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Arial" size="20.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
    </children>
 </GridPane>

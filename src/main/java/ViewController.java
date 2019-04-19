@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ViewController implements Initializable {
@@ -18,10 +17,10 @@ public class ViewController implements Initializable {
     private Solver solver;
     private GraphicsContext gc;
     private Field[][] fields;
-    private ArrayList<Field> freeFields;
     private int activeX, activeY;
     private int[][] filledInSudoku, startingSudoku;
     private boolean solvingMode, readyForInput;
+    private int[][] test;
 
     @FXML
     private Canvas canvas;
@@ -30,19 +29,28 @@ public class ViewController implements Initializable {
     public void handleButtonGenerate(ActionEvent e) {
         solvingMode = true;
         gc.clearRect(0,0,603,603);
-        creator = new Creator(9,3,45);
-        startingSudoku = creator.getSudokuWithHoles();
-        filledInSudoku = startingSudoku;
+        setAllFields();
+        creator = new Creator(9,3,40);
+        test = creator.getSudoku();
+        System.out.println("Create " + test[0][0]);
+        startingSudoku = creator.makeHoles(test);
+        System.out.println(startingSudoku[0][0]);
         setAllFreeFiels();
-        drawSudoku(startingSudoku);
+        filledInSudoku = startingSudoku;
+        drawSudoku(filledInSudoku);
         drawLines();
     }
 
     @FXML
     public void handleButtonSolve(ActionEvent e) {
         solvingMode = false;
-        solver = new Solver(filledInSudoku, 9, 3);
-        drawSudoku(solver.getSudoku());
+        System.out.println("This");
+        creator.printSudoku(startingSudoku);
+        creator.printSudoku(creator.getSudoku());
+        drawSudoku(startingSudoku);
+        System.out.println(creator.getSudokuWithHoles()[1][1]);
+        solver = new Solver(creator.getSudokuWithHoles(), 9, 3);
+        drawSudoku(creator.getSudoku());
         drawLines();
     }
 
@@ -53,18 +61,20 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleButtonLoad(ActionEvent e) {
-
+        drawSudoku(test);
+        System.out.println("Load " + test[0][0]);
+        drawLines();
     }
 
     @FXML
     public void handleButtonEmpty(ActionEvent e) {
         gc.clearRect(0, 0, 603, 603);
+        drawLines();
     }
 
     @FXML
     public void handleCanvasClicked(MouseEvent e) {
         if(solvingMode) {
-            readyForInput = true;
             drawSudoku(filledInSudoku);
             drawLines();
             gc.setFill(Color.CORAL);
@@ -72,7 +82,8 @@ public class ViewController implements Initializable {
                 for (int j = 0; j < 9; j++) {
                     if (e.getX() > fields[i][j].getStartingX() && e.getY() > fields[i][j].getStartingY() &&
                             e.getX() < (fields[i][j].getStartingX() + 67) && e.getY() < (fields[i][j].getStartingY() + 67)) {
-                        if(checkIfEditable(fields[i][j])) {
+                        if(fields[i][j].isEditable()) {
+                            readyForInput = true;
                             gc.fillRect(fields[i][j].getStartingX(), fields[i][j].getStartingY(), 67, 67);
                             activeX = j;
                             activeY = i;
@@ -86,17 +97,19 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleKeyPressed(KeyEvent e) {
+        System.out.println("Key pressed");
         if(readyForInput) {
             gc.setFill(Color.WHITE);
             String key = e.getText();
-            System.out.println(key);
             for (int i = 1; i <= 9; i++) {
-                if (Integer.parseInt(key.trim()) == i) {
+                if (Integer.parseInt(key) == i) {
                     filledInSudoku[activeX][activeY] = i;
+                    System.out.println(key + "/" + filledInSudoku[activeX][activeY]);
                     drawSudoku(filledInSudoku);
                     drawLines();
                 }
             }
+            readyForInput = false;
         }
     }
 
@@ -105,13 +118,18 @@ public class ViewController implements Initializable {
         gc.clearRect(0,0,603,603);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(sudoku[j][i] == 0) {
-                    gc.setFill(Color.rgb(11, 107, 142));
-                    //gc.fillRect(i*67, j*67, 67, 67);
+                if(fields[j][i].isEditable()) {
+                    if(sudoku[j][i] != 0) {
+                        gc.setFill(Color.rgb(11, 107, 142));
+                        gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
+                    }
+                    //gc.fillRect(j*67, i*67, 67, 67);
                 } else {
-                    gc.setFill(Color.WHITE);
-                    gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
-                    freeFields.add(new Field(i*67, i*67));
+                    if (sudoku[j][i] != 0) {
+                        gc.setFill(Color.WHITE);
+                        gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
+
+                    }
                 }
             }
         }
@@ -126,7 +144,7 @@ public class ViewController implements Initializable {
                 gc.fillRect(603/9*i-2, 0, 5, 603);
             } else {
                 gc.strokeLine(603 / 9 * i, 0, 603 / 9 * i, 603);
-            }
+        }
         }
         for (int i = 0; i <= 9; i++) {
             if(i % 3 == 0) {
@@ -148,30 +166,17 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * Alle Felder die man beschreiben darf setzen
+     */
     public void setAllFreeFiels() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if(startingSudoku[i][j] == 0) {
-                    freeFields.add(new Field(67*i, 67*j));
+                    fields[j][i].setEditable(true);
                 }
             }
         }
-    }
-
-    /**
-     * Kontrolle ob das ausgewählte Feld beschreibbar ist
-     * @param field
-     * @return
-     */
-    public boolean checkIfEditable(Field field) {
-        for (int i = 0; i < freeFields.size(); i++) {
-            if(field.getStartingX() == freeFields.get(i).getStartingX() &&
-                    field.getStartingY() == freeFields.get(i).getStartingY()){
-                System.out.println("Editable");
-                return true;
-            }
-        }
-        return false;
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -179,7 +184,13 @@ public class ViewController implements Initializable {
         solvingMode = false;
         readyForInput = false;
         fields = new Field[9][9];
-        freeFields = new ArrayList<Field>();
-        setAllFields();
+        drawLines();
+        int a = 4;
+        int b = 6;
+        int c = 9;
+        a = b;
+        b = c;
+
+        System.out.println("A: " + a + " B: " + b + " C: " + c);
     }
 }
