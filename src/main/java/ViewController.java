@@ -122,6 +122,7 @@ public class ViewController implements Initializable {
         }
     }
 
+    //Draw Sudoku
     public void drawSudoku(int[][] sudoku) {
         gc.setFont(new Font("Yu Gothic", 30));
         gc.clearRect(0,0,603,603);
