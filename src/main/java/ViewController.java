@@ -9,8 +9,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,9 +32,9 @@ public class ViewController implements Initializable {
     @FXML
     public void handleButtonGenerate(ActionEvent e) {
         solvingMode = true;
-        gc.clearRect(0,0,603,603);
+        gc.clearRect(0, 0, 603, 603);
         setAllFields();
-        creator = new Creator(9,3,40);
+        creator = new Creator(9, 3, 40);
         startingSudoku = creator.makeHoles(creator.getSudoku());
         io.outputTempSudoku(startingSudoku);
         setAllFreeFiels();
@@ -53,7 +54,7 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleButtonSave(ActionEvent e) {
-
+        creator.saveFile();
     }
 
     @FXML
@@ -83,7 +84,7 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleCanvasClicked(MouseEvent e) {
-        if(solvingMode) {
+        if (solvingMode) {
             drawSudoku(filledInSudoku);
             drawLines();
             gc.setFill(Color.CORAL);
@@ -91,7 +92,7 @@ public class ViewController implements Initializable {
                 for (int j = 0; j < 9; j++) {
                     if (e.getX() > fields[i][j].getStartingX() && e.getY() > fields[i][j].getStartingY() &&
                             e.getX() < (fields[i][j].getStartingX() + 67) && e.getY() < (fields[i][j].getStartingY() + 67)) {
-                        if(fields[i][j].isEditable()) {
+                        if (fields[i][j].isEditable()) {
                             readyForInput = true;
                             gc.fillRect(fields[i][j].getStartingX(), fields[i][j].getStartingY(), 67, 67);
                             activeX = j;
@@ -107,7 +108,7 @@ public class ViewController implements Initializable {
     @FXML
     public void handleKeyPressed(KeyEvent e) {
         System.out.println("Key pressed");
-        if(readyForInput) {
+        if (readyForInput) {
             gc.setFill(Color.WHITE);
             String key = e.getText();
             for (int i = 1; i <= 9; i++) {
@@ -125,7 +126,7 @@ public class ViewController implements Initializable {
     //Draw Sudoku
     public void drawSudoku(int[][] sudoku) {
         gc.setFont(new Font("Yu Gothic", 30));
-        gc.clearRect(0,0,603,603);
+        gc.clearRect(0, 0, 603, 603);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 /*if(fields[j][i].isEditable()) {
@@ -135,30 +136,30 @@ public class ViewController implements Initializable {
                     }
                     //gc.fillRect(j*67, i*67, 67, 67);
                 } else {*/
-                    if (sudoku[j][i] != 0) {
-                        gc.setFill(Color.WHITE);
-                        gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
+                if (sudoku[j][i] != 0) {
+                    gc.setFill(Color.WHITE);
+                    gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
 
-                    }
+                }
                 //}
             }
         }
 
     }
 
-    public void drawLines(){
+    public void drawLines() {
         gc.setStroke(Color.WHITE);
         gc.setFill(Color.WHITE);
         for (int i = 0; i <= 9; i++) {
-            if(i % 3 == 0) {
-                gc.fillRect(603/9*i-2, 0, 5, 603);
+            if (i % 3 == 0) {
+                gc.fillRect(603 / 9 * i - 2, 0, 5, 603);
             } else {
                 gc.strokeLine(603 / 9 * i, 0, 603 / 9 * i, 603);
-        }
+            }
         }
         for (int i = 0; i <= 9; i++) {
-            if(i % 3 == 0) {
-                gc.fillRect(0, 603/9*i-2, 603, 5);
+            if (i % 3 == 0) {
+                gc.fillRect(0, 603 / 9 * i - 2, 603, 5);
             } else {
                 gc.strokeLine(0, 603 / 9 * i, 603, 603 / 9 * i);
             }
@@ -171,7 +172,7 @@ public class ViewController implements Initializable {
     public void setAllFields() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                fields[i][j] = new Field(67*i, 67*j);
+                fields[i][j] = new Field(67 * i, 67 * j);
             }
         }
     }
@@ -182,7 +183,7 @@ public class ViewController implements Initializable {
     public void setAllFreeFiels() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(startingSudoku[i][j] == 0) {
+                if (startingSudoku[i][j] == 0) {
                     fields[j][i].setEditable(true);
                 }
             }

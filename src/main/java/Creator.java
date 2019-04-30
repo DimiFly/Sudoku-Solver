@@ -1,3 +1,8 @@
+
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.*;
 import java.util.Random;
 
 public class Creator {
@@ -224,6 +229,29 @@ public class Creator {
         }
         System.out.println(out);
         System.out.println("___________________");
+    }
+
+    public void saveFile(){
+        FileChooser fc = new FileChooser();
+        fc.setInitialFileName("sudoku");
+        fc.setTitle("Save Sudoku");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sudoku files (*.sudoku)", "*.sudoku");
+        fc.getExtensionFilters().add(extFilter);
+        try {
+            File file = fc.showSaveDialog(new Stage());
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    bw.write(sudoku[i][j] + " ");
+                }
+                bw.newLine();
+            }
+            bw.close();
+        } catch (FileNotFoundException exc) {
+            System.err.println("The file could not be found.");
+        } catch (IOException exc) {
+            System.err.println("The file could not be written.");
+        }
     }
 
     public int getN() {
