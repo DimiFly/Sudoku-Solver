@@ -1,9 +1,11 @@
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -25,9 +27,13 @@ public class ViewController implements Initializable {
     private int[][] filledInSudoku, startingSudoku;
     private boolean solvingMode, readyForInput;
     private IO io;
+    private Stage primaryStage;
 
     @FXML
     private Canvas canvas;
+
+    @FXML
+    private Button minimizeButton;
 
     @FXML
     public void handleButtonGenerate(ActionEvent e) {
@@ -123,6 +129,19 @@ public class ViewController implements Initializable {
         }
     }
 
+    @FXML
+    public void handleButtonClose(){
+        Platform.exit();
+        System.exit(0);
+    }
+
+    @FXML
+    public void handleButtonMinimize(){
+        minimizeButton.setOnAction(e ->
+                ( (Stage) ( (Button) e.getSource() ).getScene().getWindow() ).setIconified(true)
+        );
+    }
+
     //Draw Sudoku
     public void drawSudoku(int[][] sudoku) {
         gc.setFont(new Font("Yu Gothic", 30));
@@ -197,5 +216,9 @@ public class ViewController implements Initializable {
         fields = new Field[9][9];
         drawLines();
         io = new IO();
+    }
+
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
     }
 }
