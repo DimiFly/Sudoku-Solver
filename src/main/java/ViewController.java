@@ -1,13 +1,16 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,7 +23,7 @@ public class ViewController implements Initializable {
     private int activeX, activeY;
     private int[][] filledInSudoku, startingSudoku;
     private boolean solvingMode, readyForInput;
-    private int[][] test;
+    private IO io;
 
     @FXML
     private Canvas canvas;
@@ -31,10 +34,8 @@ public class ViewController implements Initializable {
         gc.clearRect(0,0,603,603);
         setAllFields();
         creator = new Creator(9,3,40);
-        test = creator.getSudoku();
-        System.out.println("Create " + test[0][0]);
-        startingSudoku = creator.makeHoles(test);
-        System.out.println(startingSudoku[0][0]);
+        startingSudoku = creator.makeHoles(creator.getSudoku());
+        io.outputTempSudoku(startingSudoku);
         setAllFreeFiels();
         filledInSudoku = startingSudoku;
         drawSudoku(filledInSudoku);
@@ -44,13 +45,9 @@ public class ViewController implements Initializable {
     @FXML
     public void handleButtonSolve(ActionEvent e) {
         solvingMode = false;
-        System.out.println("This");
-        creator.printSudoku(startingSudoku);
-        creator.printSudoku(creator.getSudoku());
-        drawSudoku(startingSudoku);
-        System.out.println(creator.getSudokuWithHoles()[1][1]);
-        solver = new Solver(creator.getSudokuWithHoles(), 9, 3);
-        drawSudoku(creator.getSudoku());
+        drawSudoku(io.inputTempSudoku());
+        solver = new Solver(io.inputTempSudoku(), 9, 3);
+        drawSudoku(solver.getSudoku());
         drawLines();
     }
 
@@ -61,9 +58,21 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleButtonLoad(ActionEvent e) {
-        drawSudoku(test);
-        System.out.println("Load " + test[0][0]);
-        drawLines();
+        Node node = (Node) e.getSource();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Sudoku Files", "*.sudoku"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        File selectedFile = fileChooser.showOpenDialog(node.getScene().getWindow());
+        if (selectedFile != null) {
+            io.outputTempSudoku(io.inputSudoku(selectedFile.getAbsolutePath()));
+            drawSudoku(io.inputSudoku(selectedFile.getAbsolutePath()));
+            drawLines();
+        } else {
+            System.out.println("No File Chosen");
+        }
     }
 
     @FXML
@@ -118,19 +127,19 @@ public class ViewController implements Initializable {
         gc.clearRect(0,0,603,603);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(fields[j][i].isEditable()) {
+                /*if(fields[j][i].isEditable()) {
                     if(sudoku[j][i] != 0) {
                         gc.setFill(Color.rgb(11, 107, 142));
                         gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
                     }
                     //gc.fillRect(j*67, i*67, 67, 67);
-                } else {
+                } else {*/
                     if (sudoku[j][i] != 0) {
                         gc.setFill(Color.WHITE);
                         gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
 
                     }
-                }
+                //}
             }
         }
 
@@ -185,12 +194,6 @@ public class ViewController implements Initializable {
         readyForInput = false;
         fields = new Field[9][9];
         drawLines();
-        int a = 4;
-        int b = 6;
-        int c = 9;
-        a = b;
-        b = c;
-
-        System.out.println("A: " + a + " B: " + b + " C: " + c);
+        io = new IO();
     }
 }
