@@ -5,15 +5,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.MediaException;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -40,7 +43,7 @@ public class ViewController implements Initializable {
         solvingMode = true;
         gc.clearRect(0, 0, 603, 603);
         setAllFields();
-        creator = new Creator(9, 3, 40);
+        creator = new Creator(9, 3, 6);
         startingSudoku = creator.makeHoles(creator.getSudoku());
         io.outputTempSudoku(startingSudoku);
         setAllFreeFiels();
@@ -60,22 +63,47 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleButtonSave(ActionEvent e) {
-        creator.saveFile();
+        FileChooser fc = new FileChooser();
+        fc.setInitialFileName("NewSudoku");
+        fc.setTitle("Save Sudoku");
+        fc.setInitialDirectory(new File("Sudokus/"));
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Sudoku Files (*.sudoku)", "*.sudoku"),
+                new FileChooser.ExtensionFilter("All Files (*.*)", "*.*"));
+        try {
+            File file = fc.showSaveDialog(new Stage());
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    bw.write(getTempSudoku()[i][j] + " ");
+                }
+                bw.newLine();
+            }
+            bw.close();
+        } catch (FileNotFoundException exc) {
+            System.err.println("The file could not be found.");
+        } catch (IOException exc) {
+            System.err.println("The file could not be written.");
+        }
     }
 
     @FXML
     public void handleButtonLoad(ActionEvent e) {
+        solvingMode = true;
         Node node = (Node) e.getSource();
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fileChooser.setTitle("Load Sudoku");
+        fileChooser.setInitialDirectory(new File("Sudokus/"));
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Sudoku Files", "*.sudoku"),
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         File selectedFile = fileChooser.showOpenDialog(node.getScene().getWindow());
         if (selectedFile != null) {
             io.outputTempSudoku(io.inputSudoku(selectedFile.getAbsolutePath()));
-            drawSudoku(io.inputSudoku(selectedFile.getAbsolutePath()));
+            startingSudoku =io.inputSudoku(selectedFile.getAbsolutePath());
+            setAllFreeFiels();
+            filledInSudoku = startingSudoku;
+            drawSudoku(filledInSudoku);
             drawLines();
         } else {
             System.out.println("No File Chosen");
@@ -84,6 +112,7 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleButtonEmpty(ActionEvent e) {
+        solvingMode = false;
         gc.clearRect(0, 0, 603, 603);
         drawLines();
     }
@@ -126,6 +155,15 @@ public class ViewController implements Initializable {
                 }
             }
             readyForInput = false;
+            if(checkIfSudokuIsCorrect()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Well done!");
+                alert.setHeaderText("Well done!");
+                alert.setContentText("You have successfully completed the Sudoku");
+
+                alert.showAndWait();
+            }
+
         }
     }
 
@@ -207,6 +245,23 @@ public class ViewController implements Initializable {
                 }
             }
         }
+    }
+
+    public boolean checkIfSudokuIsCorrect() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.println(filledInSudoku[i][j]);
+                if(!creator.checkIfSafe(i, j, filledInSudoku[i][j], filledInSudoku) || filledInSudoku[i][j] == 0){
+                    return false;
+                }
+            }
+        }
+        solvingMode = false;
+        return true;
+    }
+
+    public int[][] getTempSudoku() {
+        return io.inputSudoku("temp.sudoku");
     }
 
     public void initialize(URL location, ResourceBundle resources) {

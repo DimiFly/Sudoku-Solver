@@ -97,7 +97,7 @@ public class Creator {
         }
 
         for (int num = 1; num <= n; num++) {
-            if (checkIfSafe(i, j, num)) {
+            if (checkIfSafe(i, j, num, sudoku)) {
                 sudoku[i][j] = num;
                 if (fillRemaining(i, j + 1)) {
                     return true;
@@ -116,10 +116,10 @@ public class Creator {
      * @param num
      * @return
      */
-    public boolean checkIfSafe(int i, int j, int num) {
-        if (unUsedInRow(i, num) &&
-                unUsedInCol(j, num) &&
-                unUsedInBox(i - i % sqrtN, j - j % sqrtN, num)) {
+    public boolean checkIfSafe(int i, int j, int num, int[][] sudoku) {
+        if (unUsedInRow(i, j, num, sudoku) &&
+                unUsedInCol(j, i, num, sudoku) &&
+                unUsedInBox(i - i % sqrtN, j - j % sqrtN, i, j, num, sudoku)) {
             return true;
         }
         return false;
@@ -131,10 +131,12 @@ public class Creator {
      * @param num
      * @return
      */
-    public boolean unUsedInRow(int i, int num) {
+    public boolean unUsedInRow(int i, int k, int num, int[][] sudoku) {
         for (int j = 0; j < n; j++) {
-            if (sudoku[i][j] == num) {
-                return false;
+            if(j != k) {
+                if (sudoku[i][j] == num) {
+                    return false;
+                }
             }
         }
         return true;
@@ -146,10 +148,12 @@ public class Creator {
      * @param num
      * @return
      */
-    public boolean unUsedInCol(int j, int num) {
+    public boolean unUsedInCol(int j, int k, int num, int[][] sudoku) {
         for (int i = 0; i < n; i++) {
-            if (sudoku[i][j] == num) {
-                return false;
+            if(i != k) {
+                if (sudoku[i][j] == num) {
+                    return false;
+                }
             }
         }
         return true;
@@ -162,11 +166,13 @@ public class Creator {
      * @param num
      * @return
      */
-    boolean unUsedInBox(int rowStart, int colStart, int num) {
+    boolean unUsedInBox(int rowStart, int colStart, int k, int l, int num, int[][] sudoku) {
         for (int i = 0; i < sqrtN; i++) {
             for (int j = 0; j < sqrtN; j++) {
-                if (sudoku[rowStart + i][colStart + j] == num) {
-                    return false;
+                if(k % 3 != i & l % 3 != j) {
+                    if (sudoku[rowStart + i][colStart + j] == num) {
+                        return false;
+                    }
                 }
             }
         }
@@ -233,10 +239,12 @@ public class Creator {
 
     public void saveFile(){
         FileChooser fc = new FileChooser();
-        fc.setInitialFileName("sudoku");
+        fc.setInitialFileName("NewSudoku");
         fc.setTitle("Save Sudoku");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sudoku files (*.sudoku)", "*.sudoku");
-        fc.getExtensionFilters().add(extFilter);
+        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Sudoku Files (*.sudoku)", "*.sudoku"),
+                new FileChooser.ExtensionFilter("All Files (*.*)", "*.*"));
         try {
             File file = fc.showSaveDialog(new Stage());
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));

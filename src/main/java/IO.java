@@ -22,7 +22,7 @@ public class IO {
 
     public void outputTempSudoku(int[][] sudoku) {
         try {
-            FileWriter fileWriter = new FileWriter("temp.sudoku");
+            FileWriter fileWriter = new FileWriter("Sudokus/temp.sudoku");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
