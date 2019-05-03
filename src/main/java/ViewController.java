@@ -181,7 +181,10 @@ public class ViewController implements Initializable {
         );
     }
 
-    //Draw Sudoku
+    /**
+     * Sudoku zeichnen
+     * @param sudoku
+     */
     public void drawSudoku(int[][] sudoku) {
         gc.setFont(new Font("Yu Gothic", 30));
         gc.clearRect(0, 0, 603, 603);
@@ -205,6 +208,9 @@ public class ViewController implements Initializable {
 
     }
 
+    /**
+     * Sudokulinien zeichnen
+     */
     public void drawLines() {
         gc.setStroke(Color.WHITE);
         gc.setFill(Color.WHITE);
@@ -248,6 +254,10 @@ public class ViewController implements Initializable {
         }
     }
 
+    /**
+     * Kontrollieren ob das Sudoku korrekt ausgefüllt wurde
+     * @return
+     */
     public boolean checkIfSudokuIsCorrect() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -261,6 +271,10 @@ public class ViewController implements Initializable {
         return true;
     }
 
+    /**
+     * Das temporäre Sudoku einlesen
+     * @return
+     */
     public int[][] getTempSudoku() {
         return io.inputTempSudoku();
     }
@@ -272,9 +286,5 @@ public class ViewController implements Initializable {
         fields = new Field[9][9];
         drawLines();
         io = new IO();
-    }
-
-    public void setPrimaryStage(Stage stage) {
-        this.primaryStage = stage;
     }
 }

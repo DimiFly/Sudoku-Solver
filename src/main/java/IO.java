@@ -4,6 +4,10 @@ import java.io.*;
 
 public class IO {
 
+    /**
+     * Das generierte Sudoku in eine temporäre Datei schreiben
+     * @param sudoku
+     */
     public void outputTempSudoku(int[][] sudoku) {
         try {
             FileWriter fileWriter = new FileWriter("Sudokus/temp.sudoku");
@@ -20,6 +24,10 @@ public class IO {
         }
     }
 
+    /**
+     * Sudoku aus der temporären Datei lesen
+     * @return
+     */
     public int[][] inputTempSudoku() {
         String line;
         int[][] sudoku = new int[9][9];
@@ -44,6 +52,11 @@ public class IO {
         return null;
     }
 
+    /**
+     * Sudoku aus einer Datei lesen
+     * @param fileName
+     * @return
+     */
     public int[][] inputSudoku(String fileName) {
         String line;
         int[][] sudoku = new int[9][9];
