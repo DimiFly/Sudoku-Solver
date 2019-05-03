@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleKeyPressed" prefHeight="648.0" prefWidth="870.0" style="-fx-background-color: #333332;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
+<GridPane id="gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#handleKeyPressed" prefHeight="648.0" prefWidth="870.0" style="-fx-background-color: #333332;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="250.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="10.0" />
@@ -43,7 +38,7 @@
                   <Insets left="17.0" top="70.0" />
                </VBox.margin>
             </Label>
-            <Slider id="number" fx:id="numbers" majorTickUnit="21.0" max="80.0" maxHeight="-Infinity" maxWidth="-Infinity" min="17.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" stylesheets="@GUIStyle.css">
+            <Slider id="number" fx:id="numbers" majorTickUnit="21.0" max="80.0" maxHeight="-Infinity" maxWidth="-Infinity" min="17.0" minHeight="-Infinity" minWidth="-Infinity" onMouseReleased="#handleSliderAction" prefHeight="14.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" stylesheets="@GUIStyle.css">
                <VBox.margin>
                   <Insets left="15.0" top="20.0" />
                </VBox.margin>

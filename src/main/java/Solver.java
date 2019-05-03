@@ -7,7 +7,6 @@ public class Solver {
         this.sudoku = sudoku;
         this.n = n;
         this.sqrtN = sqrtN;
-        solve();
         printSudoku();
     }
 

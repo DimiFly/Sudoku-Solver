@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaException;
@@ -63,11 +64,18 @@ public class ViewController implements Initializable {
     @FXML
     public void handleButtonSolve(ActionEvent e) {
         solvingMode = false;
-        drawSudoku(io.inputTempSudoku());
         solver = new Solver(io.inputTempSudoku(), 9, 3);
-        System.out.println(solver.getSudoku()[0][0]);
-        drawSudoku(solver.getSudoku());
-        drawLines();
+        if(!solver.solve()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error!");
+            alert.setContentText("This Sudoku can't be solved");
+
+            alert.showAndWait();
+        } else {
+            drawSudoku(solver.getSudoku());
+            drawLines();
+        }
     }
 
     @FXML
@@ -99,6 +107,7 @@ public class ViewController implements Initializable {
     @FXML
     public void handleButtonLoad(ActionEvent e) {
         solvingMode = true;
+        setAllFields();
         Node node = (Node) e.getSource();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load Sudoku");
@@ -287,15 +296,13 @@ public class ViewController implements Initializable {
         return io.inputTempSudoku();
     }
 
-    private int hole = 64;
+    @FXML
+    public void handleSliderAction (MouseEvent e) {
+        actualNumber.setText(Integer.toString((int) numbers.getValue()));
+    }
 
     public int getNumbers() {
-
-        numbers.setOnMouseReleased((MouseEvent event) -> {
-                hole = 81 - (int) Math.round(numbers.getValue());
-        actualNumber.setText(Integer.toString((int) numbers.getValue()));
-        });
-        return hole;
+        return 81 - (int) Math.round(numbers.getValue());
     }
 
     public void initialize(URL location, ResourceBundle resources) {
