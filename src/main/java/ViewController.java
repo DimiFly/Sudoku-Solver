@@ -7,6 +7,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.MediaException;
@@ -33,7 +35,13 @@ public class ViewController implements Initializable {
     private Stage primaryStage;
 
     @FXML
+    private Slider numbers;
+
+    @FXML
     private Canvas canvas;
+
+    @FXML
+    private Label actualNumber;
 
     @FXML
     private Button minimizeButton;
@@ -43,7 +51,7 @@ public class ViewController implements Initializable {
         solvingMode = true;
         gc.clearRect(0, 0, 603, 603);
         setAllFields();
-        creator = new Creator(9, 3, 6);
+        creator = new Creator(9, 3, getNumbers());
         startingSudoku = creator.makeHoles(creator.getSudoku());
         io.outputTempSudoku(startingSudoku);
         setAllFreeFiels();
@@ -101,7 +109,7 @@ public class ViewController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(node.getScene().getWindow());
         if (selectedFile != null) {
             io.outputTempSudoku(io.inputSudoku(selectedFile.getAbsolutePath()));
-            startingSudoku =io.inputSudoku(selectedFile.getAbsolutePath());
+            startingSudoku = io.inputSudoku(selectedFile.getAbsolutePath());
             setAllFreeFiels();
             filledInSudoku = startingSudoku;
             drawSudoku(filledInSudoku);
@@ -123,7 +131,7 @@ public class ViewController implements Initializable {
         if (solvingMode) {
             drawSudoku(filledInSudoku);
             drawLines();
-            gc.setFill(Color.CORAL);
+            gc.setFill(Color.rgb(100, 100, 100));
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (e.getX() > fields[i][j].getStartingX() && e.getY() > fields[i][j].getStartingY() &&
@@ -156,7 +164,7 @@ public class ViewController implements Initializable {
                 }
             }
             readyForInput = false;
-            if(checkIfSudokuIsCorrect()) {
+            if (checkIfSudokuIsCorrect()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Well done!");
                 alert.setHeaderText("Well done!");
@@ -169,15 +177,15 @@ public class ViewController implements Initializable {
     }
 
     @FXML
-    public void handleButtonClose(){
+    public void handleButtonClose() {
         Platform.exit();
         System.exit(0);
     }
 
     @FXML
-    public void handleButtonMinimize(){
+    public void handleButtonMinimize() {
         minimizeButton.setOnAction(e ->
-                ( (Stage) ( (Button) e.getSource() ).getScene().getWindow() ).setIconified(true)
+                ((Stage) ((Button) e.getSource()).getScene().getWindow()).setIconified(true)
         );
     }
 
@@ -277,6 +285,17 @@ public class ViewController implements Initializable {
      */
     public int[][] getTempSudoku() {
         return io.inputTempSudoku();
+    }
+
+    private int hole = 64;
+
+    public int getNumbers() {
+
+        numbers.setOnMouseReleased((MouseEvent event) -> {
+                hole = 81 - (int) Math.round(numbers.getValue());
+        actualNumber.setText(Integer.toString((int) numbers.getValue()));
+        });
+        return hole;
     }
 
     public void initialize(URL location, ResourceBundle resources) {

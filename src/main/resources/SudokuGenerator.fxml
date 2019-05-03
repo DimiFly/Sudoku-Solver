@@ -35,12 +35,33 @@
             <DropShadow />
          </effect>
          <children>
+            <Label text="Anzahl Nummern:" textFill="WHITE">
+               <font>
+                  <Font name="Yu Gothic Light" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="17.0" top="70.0" />
+               </VBox.margin>
+            </Label>
+            <Slider id="number" fx:id="numbers" majorTickUnit="21.0" max="80.0" maxHeight="-Infinity" maxWidth="-Infinity" min="17.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" stylesheets="@GUIStyle.css">
+               <VBox.margin>
+                  <Insets left="15.0" top="20.0" />
+               </VBox.margin>
+            </Slider>
+            <Label fx:id="actualNumber" text="17" textFill="WHITE">
+               <font>
+                  <Font name="Yu Gothic Light" size="13.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="220.0" top="-26.0" />
+               </VBox.margin>
+            </Label>
             <Button id="settings" mnemonicParsing="false" onAction="#handleButtonGenerate" prefHeight="60.0" prefWidth="274.0" stylesheets="@GUIStyle.css" text="Sudoku generieren">
                <font>
                   <Font name="Yu Gothic Light" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets top="70.0" />
+                  <Insets top="50.0" />
                </VBox.margin>
                <padding>
                   <Insets left="-60.0" />
@@ -84,7 +105,7 @@
                   <Font name="Yu Gothic Light" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets top="87.0" />
+                  <Insets top="50.0" />
                </VBox.margin>
                <padding>
                   <Insets left="-98.0" />
