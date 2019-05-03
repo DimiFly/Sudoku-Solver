@@ -173,14 +173,14 @@ public class ViewController implements Initializable {
                 }
             }
             readyForInput = false;
-            if (checkIfSudokuIsCorrect()) {
+            /*if (checkIfSudokuIsCorrect()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Well done!");
                 alert.setHeaderText("Well done!");
                 alert.setContentText("You have successfully completed the Sudoku");
 
                 alert.showAndWait();
-            }
+            }*/
 
         }
     }
@@ -196,6 +196,35 @@ public class ViewController implements Initializable {
         minimizeButton.setOnAction(e ->
                 ((Stage) ((Button) e.getSource()).getScene().getWindow()).setIconified(true)
         );
+    }
+
+    @FXML
+    public void handleButtonCheck(ActionEvent event){
+        boolean isRight = false;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.println(filledInSudoku[i][j]);
+                if(!creator.checkIfSafe(i, j, filledInSudoku[i][j], filledInSudoku) || filledInSudoku[i][j] == 0){
+                    isRight = true;
+                }
+            }
+        }
+
+        if(isRight) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Well done!");
+            alert.setHeaderText("Well done!");
+            alert.setContentText("You have successfully completed the Sudoku");
+
+            alert.showAndWait();
+        }
+        /*solvingMode = false;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Well done!");
+        alert.setHeaderText("Well done!");
+        alert.setContentText("You haven't successfully completed the Sudoku");
+
+        alert.showAndWait();*/
     }
 
     /**
@@ -275,7 +304,7 @@ public class ViewController implements Initializable {
      * Kontrollieren ob das Sudoku korrekt ausgefüllt wurde
      * @return
      */
-    public boolean checkIfSudokuIsCorrect() {
+    /*public boolean checkIfSudokuIsCorrect() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 System.out.println(filledInSudoku[i][j]);
@@ -286,7 +315,7 @@ public class ViewController implements Initializable {
         }
         solvingMode = false;
         return true;
-    }
+    }*/
 
     /**
      * Das temporäre Sudoku einlesen

@@ -52,3 +52,12 @@
     -fx-border-color: black;
     -fx-border-width: 4px;
 }
+
+#check{
+    -fx-background-color: #008800;
+    -fx-text-fill: white;
+}
+
+#check:hover{
+    -fx-background-color: #00AA00;
+}
