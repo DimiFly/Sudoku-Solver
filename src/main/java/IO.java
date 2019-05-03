@@ -4,22 +4,6 @@ import java.io.*;
 
 public class IO {
 
-    public void outputSudoku(int[][] sudoku, String fileName) {
-        try {
-            FileWriter fileWriter = new FileWriter(fileName);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    bufferedWriter.write(sudoku[i][j] + " ");
-                }
-                bufferedWriter.newLine();
-            }
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void outputTempSudoku(int[][] sudoku) {
         try {
             FileWriter fileWriter = new FileWriter("Sudokus/temp.sudoku");
@@ -41,7 +25,7 @@ public class IO {
         int[][] sudoku = new int[9][9];
         int counter = 0;
         try {
-            FileReader fileReader = new FileReader("temp.sudoku");
+            FileReader fileReader = new FileReader("Sudokus/temp.sudoku");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             while((line = bufferedReader.readLine()) != null) {
                 String[] sudokuLine= line.split(" ");

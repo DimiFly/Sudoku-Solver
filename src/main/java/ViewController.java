@@ -57,6 +57,7 @@ public class ViewController implements Initializable {
         solvingMode = false;
         drawSudoku(io.inputTempSudoku());
         solver = new Solver(io.inputTempSudoku(), 9, 3);
+        System.out.println(solver.getSudoku()[0][0]);
         drawSudoku(solver.getSudoku());
         drawLines();
     }
@@ -261,7 +262,7 @@ public class ViewController implements Initializable {
     }
 
     public int[][] getTempSudoku() {
-        return io.inputSudoku("temp.sudoku");
+        return io.inputTempSudoku();
     }
 
     public void initialize(URL location, ResourceBundle resources) {

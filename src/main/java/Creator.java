@@ -237,31 +237,6 @@ public class Creator {
         System.out.println("___________________");
     }
 
-    public void saveFile(){
-        FileChooser fc = new FileChooser();
-        fc.setInitialFileName("NewSudoku");
-        fc.setTitle("Save Sudoku");
-        fc.setInitialDirectory(new File(System.getProperty("user.dir")));
-        fc.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Sudoku Files (*.sudoku)", "*.sudoku"),
-                new FileChooser.ExtensionFilter("All Files (*.*)", "*.*"));
-        try {
-            File file = fc.showSaveDialog(new Stage());
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    bw.write(sudoku[i][j] + " ");
-                }
-                bw.newLine();
-            }
-            bw.close();
-        } catch (FileNotFoundException exc) {
-            System.err.println("The file could not be found.");
-        } catch (IOException exc) {
-            System.err.println("The file could not be written.");
-        }
-    }
-
     public int getN() {
         return n;
     }
