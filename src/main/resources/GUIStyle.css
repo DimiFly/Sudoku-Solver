@@ -9,6 +9,7 @@
 
 #settings:hover{
     -fx-background-color: #111111;
+    -fx-cursor: hand;
 }
 
 #settingsLabel{
@@ -52,6 +53,9 @@
     -fx-border-color: black;
     -fx-border-width: 4px;
 }
+#number:hover{
+    -fx-cursor: hand;
+}
 
 #check{
     -fx-background-color: #008800;
@@ -60,4 +64,5 @@
 
 #check:hover{
     -fx-background-color: #00AA00;
+    -fx-cursor: hand;
 }
