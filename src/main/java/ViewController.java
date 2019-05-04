@@ -31,7 +31,7 @@ public class ViewController implements Initializable {
     private Field[][] fields;
     private int activeX, activeY;
     private int[][] filledInSudoku, startingSudoku;
-    private boolean solvingMode, readyForInput;
+    private boolean solvingMode, readyForInput, solved;
     private IO io;
     private Stage primaryStage;
 
@@ -50,6 +50,7 @@ public class ViewController implements Initializable {
     @FXML
     public void handleButtonGenerate(ActionEvent e) {
         solvingMode = true;
+        solved = false;
         gc.clearRect(0, 0, 603, 603);
         setAllFields();
         creator = new Creator(9, 3, getNumbers());
@@ -64,6 +65,7 @@ public class ViewController implements Initializable {
     @FXML
     public void handleButtonSolve(ActionEvent e) {
         solvingMode = false;
+        solved = true;
         solver = new Solver(io.inputTempSudoku(), 9, 3);
         if(!solver.solve()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -107,6 +109,7 @@ public class ViewController implements Initializable {
     @FXML
     public void handleButtonLoad(ActionEvent e) {
         solvingMode = true;
+        solved = false;
         setAllFields();
         Node node = (Node) e.getSource();
         FileChooser fileChooser = new FileChooser();
@@ -160,28 +163,17 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleKeyPressed(KeyEvent e) {
-        System.out.println("Key pressed");
         if (readyForInput) {
             gc.setFill(Color.WHITE);
             String key = e.getText();
             for (int i = 1; i <= 9; i++) {
                 if (Integer.parseInt(key) == i) {
                     filledInSudoku[activeX][activeY] = i;
-                    System.out.println(key + "/" + filledInSudoku[activeX][activeY]);
                     drawSudoku(filledInSudoku);
                     drawLines();
                 }
             }
             readyForInput = false;
-            /*if (checkIfSudokuIsCorrect()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Well done!");
-                alert.setHeaderText("Well done!");
-                alert.setContentText("You have successfully completed the Sudoku");
-
-                alert.showAndWait();
-            }*/
-
         }
     }
 
@@ -200,31 +192,35 @@ public class ViewController implements Initializable {
 
     @FXML
     public void handleButtonCheck(ActionEvent event){
-        boolean isRight = false;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.println(filledInSudoku[i][j]);
-                if(!creator.checkIfSafe(i, j, filledInSudoku[i][j], filledInSudoku) || filledInSudoku[i][j] == 0){
-                    isRight = true;
+        if(!solved) {
+            boolean isRight = true;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    creator = new Creator(9, 3, getNumbers());
+                    if (!creator.checkIfSafe(i, j, filledInSudoku[i][j], filledInSudoku) || filledInSudoku[i][j] == 0) {
+                        isRight = false;
+                    }
                 }
             }
+
+            if (isRight) {
+                solvingMode = false;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Well done!");
+                alert.setHeaderText("Well done!");
+                alert.setContentText("You have successfully completed the Sudoku");
+
+                alert.showAndWait();
+            } else {
+                solvingMode = true;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("False!");
+                alert.setHeaderText("False!");
+                alert.setContentText("The Sudoku is incomplete or still has mistakes");
+
+                alert.showAndWait();
+            }
         }
-
-        if(isRight) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Well done!");
-            alert.setHeaderText("Well done!");
-            alert.setContentText("You have successfully completed the Sudoku");
-
-            alert.showAndWait();
-        }
-        /*solvingMode = false;
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Well done!");
-        alert.setHeaderText("Well done!");
-        alert.setContentText("You haven't successfully completed the Sudoku");
-
-        alert.showAndWait();*/
     }
 
     /**
@@ -236,19 +232,17 @@ public class ViewController implements Initializable {
         gc.clearRect(0, 0, 603, 603);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                /*if(fields[j][i].isEditable()) {
+                if(fields[i][j].isEditable()) {
                     if(sudoku[j][i] != 0) {
                         gc.setFill(Color.rgb(11, 107, 142));
                         gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
                     }
-                    //gc.fillRect(j*67, i*67, 67, 67);
-                } else {*/
-                if (sudoku[j][i] != 0) {
-                    gc.setFill(Color.WHITE);
-                    gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
-
+                } else {
+                    if (sudoku[j][i] != 0) {
+                        gc.setFill(Color.WHITE);
+                        gc.fillText(sudoku[j][i] + "", (i * 67) + 23, (j * 67) + 40);
+                    }
                 }
-                //}
             }
         }
 
@@ -301,23 +295,6 @@ public class ViewController implements Initializable {
     }
 
     /**
-     * Kontrollieren ob das Sudoku korrekt ausgefüllt wurde
-     * @return
-     */
-    /*public boolean checkIfSudokuIsCorrect() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.println(filledInSudoku[i][j]);
-                if(!creator.checkIfSafe(i, j, filledInSudoku[i][j], filledInSudoku) || filledInSudoku[i][j] == 0){
-                    return false;
-                }
-            }
-        }
-        solvingMode = false;
-        return true;
-    }*/
-
-    /**
      * Das temporäre Sudoku einlesen
      * @return
      */
@@ -341,5 +318,6 @@ public class ViewController implements Initializable {
         fields = new Field[9][9];
         drawLines();
         io = new IO();
+        solved = false;
     }
 }
